@@ -1,6 +1,7 @@
 package com.todo.rest.webservices.restfulwebservice.todo;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class ToDo {
 
@@ -10,7 +11,18 @@ public class ToDo {
     private Date targetDate;
     private boolean isDone;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ToDo)) return false;
+        ToDo toDo = (ToDo) o;
+        return getId() == toDo.getId();
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 
     @Override
     public String toString() {
