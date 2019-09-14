@@ -18,6 +18,17 @@ public class ToDoHardcodedService {
         todos.add(new ToDo(++idCounteer, "oko","jump",new Date(), false));
     }
 
+    public ToDo save(ToDo toDo) {
+        if(toDo.getId() == -1 || toDo.getId() == 0){
+            toDo.setId(++idCounteer);
+            todos.add(toDo);
+        } else {
+          deleteById(toDo.getId());
+          todos.add(toDo);
+        }
+        return toDo;
+    }
+
     public List<ToDo> findAll() {
         return todos;
     }

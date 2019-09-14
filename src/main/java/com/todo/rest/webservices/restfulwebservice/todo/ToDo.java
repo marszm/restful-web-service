@@ -11,6 +11,9 @@ public class ToDo {
     private Date targetDate;
     private boolean isDone;
 
+    public ToDo() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
