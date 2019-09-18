@@ -34,12 +34,13 @@ public class JwtAuthenticationRestController {
     private UserDetailsService jwtInMemoryUserDetailsService;
 
     @RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest, @PathVariable("jwt.get.token.uri") String parameter)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
             throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = jwtInMemoryUserDetailsService
+                .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
 
@@ -47,7 +48,7 @@ public class JwtAuthenticationRestController {
     }
 
     @RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)
-    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request, @PathVariable("jwt.refresh.token.uri") String parameter) {
+    public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -61,7 +62,7 @@ public class JwtAuthenticationRestController {
         }
     }
 
-    @ExceptionHandler({AuthenticationException.class})
+    @ExceptionHandler({ AuthenticationException.class })
     public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }

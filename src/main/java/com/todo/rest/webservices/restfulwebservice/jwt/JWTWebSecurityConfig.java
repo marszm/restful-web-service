@@ -67,6 +67,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity
                 .headers()
+//                .defaultsDisabled().contentTypeOptions();
                 .frameOptions().sameOrigin()  //H2 Console Needs this setting
                 .cacheControl(); //disable caching
     }
